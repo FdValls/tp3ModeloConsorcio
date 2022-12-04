@@ -3,6 +3,7 @@ package com.example.projectchantadmin.activities
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
@@ -68,6 +69,11 @@ class ActivityLogin : AppCompatActivity(), Serializable {
 
         weatherTask().execute()
 
+        //Seteo los colores de los botones
+
+        binding.btnContinuar.setBackgroundColor(Color.BLACK)
+        binding.btnRegistrar.setBackgroundColor(Color.BLACK)
+
         binding.signInButton.setOnClickListener {
             signIn()
         }
@@ -98,6 +104,7 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                                     .show()
                                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                                 UserSession.rol = document.data!!["rol"].toString()
+                                UserSession.userName = document.data!!["name"].toString()
                                 UserSession.userPhoto = document.data!!["photo"].toString()
                                 if (UserSession.rol == "admin") {
                                     val intent =
@@ -144,6 +151,7 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                             Toast.makeText(this, "Creado con éxito", Toast.LENGTH_LONG)
                                 .show()
                             person = User(email, passwd)
+                            UserSession.userPhoto = person.photo
                             db.collection("Usuarios").document(email)
                                 .set(person)
                                 .addOnSuccessListener {

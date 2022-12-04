@@ -27,7 +27,7 @@ class GoogleSignInActivity : AppCompatActivity() {
 
         navHostFragment.navController.addOnDestinationChangedListener { _, destination, arguments ->
 
-            if (destination.id == R.id.expensasDetailFragment) {
+            if (destination.id == R.id.expensasDetailFragment || destination.id == R.id.expensasDetailFragment2) {
                 bottomNavView.visibility = View.GONE
             } else {
                 bottomNavView.visibility = View.VISIBLE

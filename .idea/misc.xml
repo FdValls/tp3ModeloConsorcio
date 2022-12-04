@@ -9,6 +9,7 @@
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.2245" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_baseline_login_24.xml" value="0.2245" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.2245" />
+        <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_edit.xml" value="0.1925" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_launcher_background.xml" value="0.222" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_launcher_build_background.xml" value="0.222" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/drawable/ic_launcher_build_foreground.xml" value="0.222" />
@@ -21,6 +22,7 @@
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/activity_weather.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/fragment_admin.xml" value="0.3625" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/fragment_customer.xml" value="0.33" />
+        <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/fragment_edit_customer.xml" value="0.3138888888888889" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/fragment_expensas_detail.xml" value="0.16875" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/fragment_list_expensas.xml" value="0.18177083333333333" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/layout/fragment_list_property.xml" value="0.3776041666666667" />
@@ -35,6 +37,7 @@
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/menu/menu_admin.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/menu/menu_customer.xml" value="0.3625" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/xml/root_preference.xml" value="0.33" />
+        <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/xml/root_preference_customer.xml" value="0.5" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/chantadmin/app/src/main/res/xml/root_preferences.xml" value="0.35833333333333334" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/projectChantAdmin/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/ferna/OneDrive/Escritorio/Facu/TP3/projectChantAdmin/app/src/main/res/layout/activity_splash.xml" value="0.2" />

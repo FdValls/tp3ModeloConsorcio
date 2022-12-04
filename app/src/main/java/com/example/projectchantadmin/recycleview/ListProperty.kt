@@ -43,6 +43,9 @@ class ListProperty : Fragment(), Serializable {
         super.onStart()
 
         var user = User("fernandodanielvalls@gmail.com")
+        var user1 = User("danielalvarez@gmail.com")
+        var user2 = User("camiloclub@gmail.com")
+        var user3 = User("federacionpatronal@gmail.com")
 
 
         for (i in 1..5) {
@@ -58,7 +61,23 @@ class ListProperty : Fragment(), Serializable {
                 Property(
                     "Magistral",
                     "Alem 1247, Brandsen",
-                    user,
+                    user1,
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY4VQY3qSim_ZpG4saJnrw5NAUJLleOfiHpg&usqp=CAU"
+                )
+            )
+            products.add(
+                Property(
+                    "Remax S.A",
+                    "Lugones 4321, Adogue",
+                    user2,
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY4VQY3qSim_ZpG4saJnrw5NAUJLleOfiHpg&usqp=CAU"
+                )
+            )
+            products.add(
+                Property(
+                    "Construmax S.R.L",
+                    "Luis Guiñoz 140, Cañuelas",
+                    user3,
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY4VQY3qSim_ZpG4saJnrw5NAUJLleOfiHpg&usqp=CAU"
                 )
             )
@@ -80,7 +99,7 @@ class ListProperty : Fragment(), Serializable {
     fun onItemClick(position: Int): Boolean {
         Toast.makeText(activity, "Detalles del producto", Toast.LENGTH_SHORT)
             .show()
-        var a = ListExpensasDirections.actionListExpensasToExpensasDetailFragment()
+        var a = ListPropertyDirections.actionListPropertyToExpensasDetailFragment2()
         v.findNavController().navigate(a)
 
         return true

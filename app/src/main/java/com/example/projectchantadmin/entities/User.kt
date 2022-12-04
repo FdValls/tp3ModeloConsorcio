@@ -4,7 +4,7 @@ class User {
 
     var name: String = ""
     var phone: String = ""
-    var photo: String = ""
+    var photo: String = "https://cdn.icon-icons.com/icons2/1462/PNG/512/120nophoto_100007.png"
     var email: String
     var rol: String
     var passwd: String = ""

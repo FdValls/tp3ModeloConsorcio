@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_baseline_fact_check_24"
         android:title="Expensas" />
     <item
-        android:id="@+id/id_menu_propietario"
+        android:id="@+id/fragment_edit_customer2"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Editar" />
     <item

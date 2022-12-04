@@ -21,7 +21,7 @@ class SettingActivity : AppCompatActivity() {
 
         //Cuando se crea, levanto el xml.root.preferences
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preference, rootKey)
+            setPreferencesFromResource(R.xml.root_preference_admin, rootKey)
         }
     }
 }
