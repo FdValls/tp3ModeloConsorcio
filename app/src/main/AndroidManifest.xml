@@ -14,10 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ProjectChantAdmin"
+        android:theme="@style/Theme.ProjectChantAdmin.NoActionBar"
         tools:targetApi="31">
         <activity
             android:name=".activities.CustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SettingActivity"
             android:exported="false" />
         <activity
             android:name=".activities.GoogleSignInActivity"

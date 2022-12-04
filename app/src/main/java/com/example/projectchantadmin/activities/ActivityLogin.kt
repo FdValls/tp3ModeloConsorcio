@@ -3,20 +3,19 @@ package com.example.projectchantadmin.activities
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
-import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import com.example.projectchantadmin.R
 import com.example.projectchantadmin.databinding.ActivityLoginBinding
 import com.example.projectchantadmin.entities.User
 import com.example.projectchantadmin.utils.GoogleClientGso
 import com.example.projectchantadmin.utils.UserSession
+import com.example.projectchantadmin.utils.WeatherSession
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,20 +24,27 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import org.json.JSONObject
 import java.io.Serializable
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ActivityLogin : AppCompatActivity(), Serializable {
+
+    val CITY: String = "Buenos Aires,arg"
+    val API: String = "442f3276441db123786da753bda41aa6" // Use your own API key
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userEditText: EditText
+    private lateinit var userEditPasswd: EditText
     private lateinit var email: String
+    private lateinit var passwd: String
     private lateinit var person: User
     private val db = Firebase.firestore
 
@@ -49,6 +55,7 @@ class ActivityLogin : AppCompatActivity(), Serializable {
 
         auth = Firebase.auth
         userEditText = binding.editTextEmail
+        userEditPasswd = binding.editTextPasswod
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("430285401875-qal3lud0i9ep0jnqjlrhsr87voa3949p.apps.googleusercontent.com")
@@ -59,7 +66,7 @@ class ActivityLogin : AppCompatActivity(), Serializable {
 
         GoogleClientGso.googleSignInClient = googleSignInClient
 
-
+        weatherTask().execute()
 
         binding.signInButton.setOnClickListener {
             signIn()
@@ -68,12 +75,13 @@ class ActivityLogin : AppCompatActivity(), Serializable {
         binding.btnContinuar.setOnClickListener {
 
             email = userEditText.text.toString()
+            passwd = userEditPasswd.text.toString()
             //Agregamos validación
             when {
-                email.isEmpty() -> {
+                email.isEmpty() || passwd.isEmpty() -> {
                     Toast.makeText(
                         this,
-                        "El campo email es obligatorio, caso contrario loguearse con GOOGLE!",
+                        "Los campos son obligatorios, caso contrario loguearse con GOOGLE!",
                         Toast.LENGTH_LONG
                     )
                         .show()
@@ -85,11 +93,12 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                     val docRef = db.collection("Usuarios").document(email)
                     docRef.get()
                         .addOnSuccessListener { document ->
-                            if (document.data != null) {
+                            if (document.data != null && document.data!!["passwd"].toString() == passwd) {
                                 Toast.makeText(this, "Access Success", Toast.LENGTH_LONG)
                                     .show()
                                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                                 UserSession.rol = document.data!!["rol"].toString()
+                                UserSession.userPhoto = document.data!!["photo"].toString()
                                 if (UserSession.rol == "admin") {
                                     val intent =
                                         Intent(applicationContext, GoogleSignInActivity::class.java)
@@ -104,7 +113,7 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                             } else {
                                 Toast.makeText(
                                     this,
-                                    "El email no esta registrado, for favor registrese!",
+                                    "El email/passwd son incorectos o no estan registrados",
                                     Toast.LENGTH_LONG
                                 )
                                     .show()
@@ -114,8 +123,6 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                         .addOnFailureListener { exception ->
                             Log.d(TAG, "get failed with ", exception)
                         }
-
-
                 }
             }
 
@@ -123,20 +130,45 @@ class ActivityLogin : AppCompatActivity(), Serializable {
         binding.btnRegistrar.setOnClickListener {
 
             email = userEditText.text.toString()
+            passwd = userEditPasswd.text.toString()
 
-            if (isValidEmail(email)) {
-                db.collection("Usuarios").document(userEditText.text.toString())
-                    .set(person)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Creado con éxito", Toast.LENGTH_LONG)
-                            .show()
-                        val intent = Intent(applicationContext, CustomerActivity::class.java)
-                        startActivity(intent)
-                        finish()
+            if (isValidEmail(email) && !isValidPasswd(passwd)) {
+
+                //consultar si ya existe en la DB
+
+                val docRef = db.collection("Usuarios").document(email)
+
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        if (document.data == null) {
+                            Toast.makeText(this, "Creado con éxito", Toast.LENGTH_LONG)
+                                .show()
+                            person = User(email, passwd)
+                            db.collection("Usuarios").document(email)
+                                .set(person)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Creado con éxito", Toast.LENGTH_LONG)
+                                        .show()
+                                    val intent =
+                                        Intent(applicationContext, CustomerActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "El email ya se encuentra registrado en nuestra base de datos!",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                            Log.d(TAG, "No such document")
+                        }
                     }
-                    .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with ", exception)
+                    }
             } else {
-                Toast.makeText(this, "Introduzca un email válido", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Introduzca datos válidos", Toast.LENGTH_LONG)
                     .show()
             }
 
@@ -146,6 +178,10 @@ class ActivityLogin : AppCompatActivity(), Serializable {
 
     private fun isValidEmail(email: String): Boolean {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isValidPasswd(passwd: String): Boolean {
+        return passwd.isBlank() || passwd.isEmpty()
     }
 
     private fun logout() {
@@ -236,6 +272,38 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                         finish()
                     }
                 }
+
+        }
+    }
+
+    inner class weatherTask() : AsyncTask<String, Void, String>() {
+
+        override fun doInBackground(vararg params: String?): String? {
+            var response: String?
+            try {
+                response =
+                    URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(
+                        Charsets.UTF_8
+                    )
+            } catch (e: Exception) {
+                response = null
+            }
+            return response
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            /* Extracting JSON returns from the API */
+            val jsonObj = JSONObject(result)
+            val main = jsonObj.getJSONObject("main")
+            WeatherSession.temperatura = main.getString("temp")
+            val sys = jsonObj.getJSONObject("sys")
+            val updatedAt: Long = jsonObj.getLong("dt")
+            WeatherSession.hora = SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(
+                Date(updatedAt * 1000)
+            )
+            WeatherSession.pais = jsonObj.getString("name") + ", " + sys.getString("country")
+            WeatherSession.temperatura = main.getString("temp") + "°C"
 
         }
     }

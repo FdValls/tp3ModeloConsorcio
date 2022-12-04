@@ -1,8 +1,7 @@
 package com.example.projectchantadmin.fragments
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,38 +10,46 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.projectchantadmin.R
-import com.example.projectchantadmin.entities.User
 import com.example.projectchantadmin.utils.UserSession
+import com.example.projectchantadmin.utils.WeatherSession
+import kotlinx.android.synthetic.main.fragment_admin.*
 
-class Fragment_login : Fragment() {
+class Fragment_admin : Fragment() {
 
     private lateinit var fotoPerfil: ImageView
-    private lateinit var rolPerfil: TextView
-
+    private lateinit var paisPerfil: TextView
+    private lateinit var horaPerfil: TextView
+    private lateinit var tempPerfil: TextView
+    private lateinit var nombreCompleto: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_admin, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        paisPerfil = view.findViewById(R.id.id_pais_perfil)
+        horaPerfil = view.findViewById(R.id.id_hora_perfil)
+        tempPerfil = view.findViewById(R.id.id_temp_perfil)
+        nombreCompleto = view.findViewById(R.id.id_nombre_completo_admin)
+
         fotoPerfil = view.findViewById(R.id.id_photo_perfil)
-        rolPerfil = view.findViewById(R.id.id_rol_perfil)
         Glide.with(this)
             .load(UserSession.userPhoto)
             .circleCrop()
             .override(300, 300)
             .into(fotoPerfil)
 
-        //rolPerfil.text = UserSession.rol.toString()
-        Log.d(ContentValues.TAG, "Rol en FRAGMENT LOGIN!!: ${UserSession.rol}")
-        Log.d(ContentValues.TAG, "Name en FRAGMENT LOGIN!!: ${UserSession.userName}")
-        rolPerfil.text = UserSession.rol
+        nombreCompleto.text = "Hola, ${UserSession.userName}"
+        paisPerfil.text = WeatherSession.pais
+        horaPerfil.text = WeatherSession.hora
+        tempPerfil.text = WeatherSession.temperatura
+
     }
 
 }

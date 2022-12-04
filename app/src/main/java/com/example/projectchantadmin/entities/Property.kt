@@ -2,20 +2,23 @@ package com.example.projectchantadmin.entities
 
 class Property(
     name: String,
-    apartmentList: Array<Apartment>,
     address: String,
+    user: User,
+    urlImage: String
 ) {
 
     var name: String
-    var apartmentList: Array<Apartment>
     var address: String
     var security: Boolean = false
+    var user: User
+    var urlImage: String
 
     init {
         this.name = name
-        this.apartmentList = apartmentList
         this.address = address
         this.security = security
+        this.user = user
+        this.urlImage = urlImage
     }
 
     fun changeSecurity() {

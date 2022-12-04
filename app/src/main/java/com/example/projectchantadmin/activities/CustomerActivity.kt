@@ -1,23 +1,41 @@
 package com.example.projectchantadmin.activities
 
-import android.content.ContentValues
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceFragmentCompat
-import com.bumptech.glide.Glide
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.projectchantadmin.R
-import com.example.projectchantadmin.utils.UserSession
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CustomerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer)
+
+        setupBottomNavigationView()
+
+    }
+
+    private fun setupBottomNavigationView() {
+        // Busco los componentes en la View generada por su id
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_customer) as NavHostFragment
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view_customer)
+
+        // Relaciono mi Bottom Nav View con mi nav graph
+        bottomNavView.setupWithNavController(navHostFragment.navController)
+
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, arguments ->
+
+            // Si mi destino es el login entonces oculto la barra inferior. Caso contrario la muestro
+            if (destination.id == R.id.expensasDetailFragment) {
+                bottomNavView.visibility = View.GONE
+            } else {
+                bottomNavView.visibility = View.VISIBLE
+            }
+        }
 
     }
 

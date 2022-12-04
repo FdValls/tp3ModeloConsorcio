@@ -1,20 +1,24 @@
 package com.example.projectchantadmin.fragments
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.projectchantadmin.R
 import com.example.projectchantadmin.utils.UserSession
+import com.example.projectchantadmin.utils.WeatherSession
 
 class Fragment_customer : Fragment() {
 
-    private lateinit var nombre: TextView
+    private lateinit var fotoPerfilCustomer: ImageView
+    private lateinit var paisPerfilCustomer: TextView
+    private lateinit var horaPerfilCustomer: TextView
+    private lateinit var tempPerfilCustomer: TextView
+    private lateinit var nombreCompleto: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +30,29 @@ class Fragment_customer : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        nombre = view.findViewById(R.id.id_txt_customer)
+        paisPerfilCustomer = view.findViewById(R.id.id_pais_perfil_customer)
+        horaPerfilCustomer = view.findViewById(R.id.id_hora_perfil_customer)
+        tempPerfilCustomer = view.findViewById(R.id.id_temp_perfil_customer)
+        nombreCompleto = view.findViewById(R.id.id_nombre_completo_customer)
 
-        Log.d(ContentValues.TAG, "Rol en FRAGMENT LOGIN!!: ${UserSession.rol}")
-        Log.d(ContentValues.TAG, "Name en FRAGMENT LOGIN!!: ${UserSession.userName}")
-        nombre.text = UserSession.rol
+        fotoPerfilCustomer = view.findViewById(R.id.id_photo_perfil_customer)
+        Glide.with(this)
+            .load(UserSession.userPhoto)
+            .circleCrop()
+            .override(300, 300)
+            .into(fotoPerfilCustomer)
+
+        if(UserSession.userName != null){
+            nombreCompleto.text = "Hola, ${UserSession.userName}"
+        }else{
+            nombreCompleto.text = "Hola, 'no hay nombre para mostrar'"
+        }
+
+
+        paisPerfilCustomer.text = WeatherSession.pais
+        horaPerfilCustomer.text = WeatherSession.hora
+        tempPerfilCustomer.text = WeatherSession.temperatura
+
     }
 
 }

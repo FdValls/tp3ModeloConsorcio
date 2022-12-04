@@ -1,0 +1,88 @@
+package com.example.projectchantadmin.recycleview
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.projectchantadmin.R
+import com.example.projectchantadmin.adapter.AdapterExpensas
+import com.example.projectchantadmin.adapter.AdapterProperty
+import com.example.projectchantadmin.entities.Property
+import com.example.projectchantadmin.entities.User
+import java.io.Serializable
+
+class ListProperty : Fragment(), Serializable {
+
+    lateinit var v: View
+    lateinit var recProduct: RecyclerView
+    var products: MutableList<Property> = ArrayList()
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var productListAdapter: AdapterProperty
+
+    companion object {
+        fun newInstance() = ListExpensas()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        v = inflater.inflate(R.layout.fragment_list_expensas, container, false)
+
+        recProduct = v.findViewById(R.id.rec_list_product)
+
+        return v
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        var user = User("fernandodanielvalls@gmail.com")
+
+
+        for (i in 1..5) {
+            products.add(
+                Property(
+                    "Propiedades Buen Camino",
+                    "Suipacha 207, CABA",
+                    user,
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY4VQY3qSim_ZpG4saJnrw5NAUJLleOfiHpg&usqp=CAU"
+                )
+            )
+            products.add(
+                Property(
+                    "Magistral",
+                    "Alem 1247, Brandsen",
+                    user,
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY4VQY3qSim_ZpG4saJnrw5NAUJLleOfiHpg&usqp=CAU"
+                )
+            )
+
+        }
+
+        recProduct.setHasFixedSize(true)
+        linearLayoutManager = LinearLayoutManager(context)
+
+        recProduct.layoutManager = linearLayoutManager
+
+        productListAdapter = AdapterProperty(products) { x ->
+            onItemClick(x)
+        }
+
+        recProduct.adapter = productListAdapter
+    }
+
+    fun onItemClick(position: Int): Boolean {
+        Toast.makeText(activity, "Detalles del producto", Toast.LENGTH_SHORT)
+            .show()
+        var a = ListExpensasDirections.actionListExpensasToExpensasDetailFragment()
+        v.findNavController().navigate(a)
+
+        return true
+    }
+}
