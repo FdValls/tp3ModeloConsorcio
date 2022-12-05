@@ -19,7 +19,6 @@ class SettingActivity : AppCompatActivity() {
 
     class SettingFragment : PreferenceFragmentCompat() {
 
-        //Cuando se crea, levanto el xml.root.preferences
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preference_admin, rootKey)
         }

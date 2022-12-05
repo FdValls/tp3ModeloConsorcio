@@ -141,8 +141,6 @@ class ActivityLogin : AppCompatActivity(), Serializable {
 
             if (isValidEmail(email) && !isValidPasswd(passwd)) {
 
-                //consultar si ya existe en la DB
-
                 val docRef = db.collection("Usuarios").document(email)
 
                 docRef.get()
@@ -265,17 +263,12 @@ class ActivityLogin : AppCompatActivity(), Serializable {
                         person.phone = user.phoneNumber.toString()
                         docRef.set(person)
                     }
-
-                    Log.d(TAG, "Rol!: ${UserSession.rol}")
-
                     if (UserSession.rol == "admin") {
                         val intent = Intent(applicationContext, GoogleSignInActivity::class.java)
-                        Log.d("ROL ADMIN PARA GoogleSignInActivity", UserSession.rol.toString())
                         startActivity(intent)
                         finish()
                     } else {
                         val intent = Intent(applicationContext, CustomerActivity::class.java)
-                        Log.d("ROL ADMIN PARA CustomerActivity", UserSession.rol.toString())
                         startActivity(intent)
                         finish()
                     }
@@ -284,6 +277,7 @@ class ActivityLogin : AppCompatActivity(), Serializable {
         }
     }
 
+    //Api para consultar la hora y el clima
     inner class weatherTask() : AsyncTask<String, Void, String>() {
 
         override fun doInBackground(vararg params: String?): String? {

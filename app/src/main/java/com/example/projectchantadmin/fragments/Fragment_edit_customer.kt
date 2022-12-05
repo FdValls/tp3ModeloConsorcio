@@ -25,7 +25,6 @@ class Fragment_edit_customer : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_edit_customer, container, false)
 
         return v
@@ -39,14 +38,11 @@ class Fragment_edit_customer : Fragment() {
         val passwordText = view.findViewById<TextView>(R.id.password_text)
         btnSave = view.findViewById(R.id.save_button)
 
-        // Lo que hace esto es mostrar un subrayado para los TextView
         nameText.paintFlags = nameText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         passwordText.paintFlags = passwordText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         nameText.text = UserSession.userName
 
-        // Cargo la imagen hardcodeada del avatar para la imagen. Como uso .circleCrop() entonces va a aparecer de forma
-        // redondeada en lugar de cuadrada como lo haria por default
         Glide.with(this)
             .load("https://www.w3schools.com/howto/img_avatar.png")
             .circleCrop()

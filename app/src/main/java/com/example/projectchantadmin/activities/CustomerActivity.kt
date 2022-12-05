@@ -29,7 +29,7 @@ class CustomerActivity : AppCompatActivity() {
 
         navHostFragment.navController.addOnDestinationChangedListener { _, destination, arguments ->
 
-            // Si mi destino es el login entonces oculto la barra inferior. Caso contrario la muestro
+            // Si mi destino es el expensasDetailFragment o fragment_edit_customer2 oculto la barra inferior. Caso contrario la muestro
             if (destination.id == R.id.expensasDetailFragment || destination.id == R.id.fragment_edit_customer2) {
                 bottomNavView.visibility = View.GONE
             } else {

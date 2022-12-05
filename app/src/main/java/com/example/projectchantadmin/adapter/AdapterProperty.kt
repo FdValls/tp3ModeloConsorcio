@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectchantadmin.R
-import com.example.projectchantadmin.entities.Expensas
 import com.example.projectchantadmin.entities.Property
 
 class AdapterProperty(
